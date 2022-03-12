@@ -7,7 +7,7 @@
 
 #define ledPin D7
 #define buttonPin D0
-int ledState = LOW;       // the current state of the output pin
+int ledState = LOW;        // the current state of the output pin
 int buttonState;           // the current reading from the input pin
 int lastButtonState = LOW; // the previous reading from the input pin
 
@@ -55,14 +55,20 @@ void loop()
       buttonState = reading;
 
       // only toggle the LED if the new button state is HIGH
-      if (buttonState == HIGH && ledState == LOW)
+      if (buttonState == HIGH)
       {
         // publish event
         bool published;
-        ledState = HIGH; //might subscribe to conversation status for local feedback. 
         published = Particle.publish("Report", "new-report");
-        if (!published) {
+        if (!published)
+        {
           // handle publishing error locally
+        }
+        else if (published)
+        {
+          digitalWrite(ledPin, HIGH); // might subscribe to conversation status for local feedback.
+          delay(3000);
+          digitalWrite(ledPin, LOW);
         }
       }
     }
@@ -71,7 +77,7 @@ void loop()
   // ledState to be HIGH until conversation completed then to be LOW until next attempt to report activity
 
   // set the LED:
-  digitalWrite(ledPin, ledState);
+  // digitalWrite(ledPin, ledState);
 
   // save the reading. Next time through the loop, it'll be the lastButtonState:
   lastButtonState = reading;
