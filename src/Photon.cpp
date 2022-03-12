@@ -1,3 +1,9 @@
+/******************************************************/
+//       THIS IS A GENERATED FILE - DO NOT EDIT       //
+/******************************************************/
+
+#include "Particle.h"
+#line 1 "c:/Users/me/Code/Particle/Photon/src/Photon.ino"
 /*
  * Project Report Activity
  * Description:
@@ -5,6 +11,9 @@
  * Date: March 11, 2022
  */
 
+void setup();
+void loop();
+#line 8 "c:/Users/me/Code/Particle/Photon/src/Photon.ino"
 #define ledPin D7
 #define buttonPin D0
 int ledState = LOW;       // the current state of the output pin
