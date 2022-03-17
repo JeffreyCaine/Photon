@@ -23,6 +23,8 @@ int b2LastState = LOW; // the previous reading from the input pin
 unsigned long lastDebounceTime = 0; // the last time the output pin was toggled
 unsigned long debounceDelay = 50;   // the debounce time; increase if the output flickers
 
+int myStatusLED(String command);
+
 // setup() runs once, when the device is first turned on.
 void setup()
 {
@@ -33,6 +35,8 @@ void setup()
   pinMode(myStatus, OUTPUT);
   pinMode(myCircleStatus, OUTPUT);
   pinMode(deviceStatus, OUTPUT);
+
+  Particle.function("myStatus", myStatusLED);
 }
 
 // loop() runs over and over again, as quickly as it can execute.
@@ -87,8 +91,6 @@ void loop()
   // save the reading. Next time through the loop, it'll be the b0LastState:
   b0LastState = b0Reading;
 
-
-
   // read the state of the switch into a local variable:
   int b1Reading = digitalRead(freePass);
 
@@ -137,9 +139,6 @@ void loop()
 
   // save the reading. Next time through the loop, it'll be the b0LastState:
   b1LastState = b1Reading;
-
-
-
 
   // read the state of the switch into a local variable:
   int b2Reading = digitalRead(motivation);
@@ -191,4 +190,22 @@ void loop()
   b2LastState = b2Reading;
 
   digitalWrite(deviceStatus, LOW);
+}
+
+// this function automagically gets called upon a matching POST request
+int myStatusLED(String command)
+{
+  // look for the matching argument "coffee" <-- max of 64 characters long
+  if (command == "complete")
+  {
+    digitalWrite(myStatus, HIGH);
+    return 1;
+  }
+  else if (command == "reset")
+  {
+    digitalWrite(myStatus, LOW);
+    return 1;
+  }
+  else
+    return -1;
 }
