@@ -9,7 +9,7 @@
 #define myCircleStatus D6
 #define deviceStatus D7
 #define newReport D0
-#define freePass D1
+#define help D1
 #define motivation D2
 
 bool statusLED = LOW;  // onboard device LED
@@ -30,7 +30,7 @@ void setup()
 {
   // Put initialization like pinMode and begin functions here.
   pinMode(newReport, INPUT_PULLDOWN);
-  pinMode(freePass, INPUT_PULLDOWN);
+  pinMode(help, INPUT_PULLDOWN);
   pinMode(motivation, INPUT_PULLDOWN);
   pinMode(myStatus, OUTPUT);
   pinMode(myCircleStatus, OUTPUT);
@@ -92,7 +92,7 @@ void loop()
   b0LastState = b0Reading;
 
   // read the state of the switch into a local variable:
-  int b1Reading = digitalRead(freePass);
+  int b1Reading = digitalRead(help);
 
   // check to see if you just pressed the button
   // (i.e. the input went from LOW to HIGH), and you've waited long enough
@@ -118,7 +118,7 @@ void loop()
       {
         // publish event
         bool success;
-        success = Particle.publish("Free-pass");
+        success = Particle.publish("help");
         if (!success)
         {
           for (int i = 0; i < 6; i++)
