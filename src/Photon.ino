@@ -158,3 +158,35 @@ int myStatusCommand(String command)
   else
     return -1;
 }
+
+// this function automagically gets called upon a matching POST request
+int circleStatusCommand(String command)
+{
+  if (command == "complete")
+  {
+    analogWrite(myStatusBlue, 255);
+    return 1;
+  }
+  else if (command == "due")
+  {
+    analogWrite(myStatusGreen, 255);
+    return 1;
+  }
+  else if (command == "lapsed")
+  {
+    analogWrite(myStatusYellow, 255);
+    return 1;
+  }
+  else if (command == "reporting")
+  {
+    analogWrite(myStatusBlue, 125);
+    return 1;
+  }
+  else if (command == "dropped")
+  {
+    analogWrite(myStatusYellow, 125);
+    return 1;
+  }
+  else
+    return -1;
+}
