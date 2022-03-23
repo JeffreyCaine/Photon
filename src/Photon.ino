@@ -6,15 +6,15 @@
  */
 
 #define myStatusGreen D0  // myStatus due
-#define myStatusBlue D1  // myStatus complete
-#define myStatusYellow D2  // myStatus lapsed
+#define myStatusBlue D1   // myStatus complete
+#define myStatusYellow D2 // myStatus lapsed
 #define circleStatusGreen D3
 #define circleStatusBlue RX
 #define circleStatusYellow TX
 #define connect D4
 #define help D5
 #define human D6  // publish human
-#define report D7  // publish report
+#define report D7 // publish report
 
 int b0State;           // the current reading from the input pin
 int b0LastState = LOW; // the previous reading from the input pin
@@ -75,7 +75,7 @@ void loop()
       if (b0State == HIGH)
       {
         // publish event
-        bool success = Particle.publish("Report");
+        bool success = Particle.publish("Hook", "report");
         if (!success)
         {
           // error handling
@@ -112,7 +112,7 @@ void loop()
       if (b1State == HIGH)
       {
         // publish event
-        bool success = Particle.publish("Human");
+        bool success = Particle.publish("Hook", "human");
         if (!success)
         {
           // error handling
@@ -164,27 +164,27 @@ int circleStatusCommand(String command)
 {
   if (command == "complete")
   {
-    analogWrite(myStatusBlue, 255);
+    analogWrite(circleStatusBlue, 255);
     return 1;
   }
   else if (command == "due")
   {
-    analogWrite(myStatusGreen, 255);
+    analogWrite(circleStatusGreen, 255);
     return 1;
   }
   else if (command == "lapsed")
   {
-    analogWrite(myStatusYellow, 255);
+    analogWrite(circleStatusYellow, 255);
     return 1;
   }
   else if (command == "reporting")
   {
-    analogWrite(myStatusBlue, 125);
+    analogWrite(circleStatusBlue, 125);
     return 1;
   }
   else if (command == "dropped")
   {
-    analogWrite(myStatusYellow, 125);
+    analogWrite(circleStatusYellow, 125);
     return 1;
   }
   else
